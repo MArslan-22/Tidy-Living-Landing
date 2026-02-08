@@ -35,12 +35,21 @@
         <!-- Product Bridge Section (Hidden by Default) -->
         <div id="product-bridge" class="bridge-container" style="display: none;">
             <div class="glass-btn bridge-card">
-                <p class="bridge-text">You're one step away from:</p>
-                <h2 id="bridge-product-name" class="bridge-heading">Loading Product...</h2>
-                <a id="bridge-amazon-link" href="#" class="cta-btn" target="_blank" rel="noopener noreferrer">
-                    Shop on Amazon
-                </a>
-                <p class="bridge-subtext">Redirecting you to the official Amazon store.</p>
+                <div class="bridge-image-container">
+                    <img id="bridge-product-image" src="" alt="Product Image" class="bridge-product-img">
+                </div>
+                <div class="bridge-content">
+                    <p class="bridge-text">You're one step away from:</p>
+                    <h2 id="bridge-product-name" class="bridge-heading">Loading Product...</h2>
+                    <div id="bridge-metadata" class="bridge-metadata">
+                        <span id="bridge-price" class="badge price-badge">$0.00</span>
+                        <span id="bridge-rating" class="badge rating-badge">⭐ 5.0</span>
+                    </div>
+                    <a id="bridge-amazon-link" href="#" class="cta-btn" target="_blank" rel="noopener noreferrer">
+                        Shop on Amazon
+                    </a>
+                    <p class="bridge-subtext">Redirecting you to the official Amazon store.</p>
+                </div>
                 <button onclick="hideBridge()" class="back-btn">View All Finds</button>
             </div>
         </div>
@@ -79,11 +88,518 @@
         </div>
 
         <script>
+            // --- LEGACY DATA START ---
+            const LEGACY_MAP = {
+                "B0BZW3C6ST": {
+                    "img": "https://m.media-amazon.com/images/I/71IdFhnTV+L._AC_UL320_.jpg",
+                    "price": "$27.98",
+                    "rating": "4.7"
+                },
+                "B0B46NPJY9": {
+                    "img": "https://m.media-amazon.com/images/I/810i8SpE3PL._AC_UL320_.jpg",
+                    "price": "$39.98",
+                    "rating": "4.8"
+                },
+                "B08R9P9CJL": {
+                    "img": "https://m.media-amazon.com/images/I/712HWGjj6mL._AC_UL320_.jpg",
+                    "price": "$22.08",
+                    "rating": "4.7"
+                },
+                "B0BMFKGVXD": {
+                    "img": "https://m.media-amazon.com/images/I/710alNPbUZL._AC_UL320_.jpg",
+                    "price": "$28.98",
+                    "rating": "4.8"
+                },
+                "B08BQBNXSQ": {
+                    "img": "https://m.media-amazon.com/images/I/71b5YosDyVL._AC_UL320_.jpg",
+                    "price": "$33.98",
+                    "rating": "4.8"
+                },
+                "B0FM7YVT6P": {
+                    "img": "https://m.media-amazon.com/images/I/71zNT80fUqL._AC_UL320_.jpg",
+                    "price": "$32.98",
+                    "rating": "4.8"
+                },
+                "B09793M7M8": {
+                    "img": "https://m.media-amazon.com/images/I/81VaBU82HPL._AC_UL320_.jpg",
+                    "price": "$34.98",
+                    "rating": "4.8"
+                },
+                "B0D176VGXZ": {
+                    "img": "https://m.media-amazon.com/images/I/813BIdw-tgL._AC_UL320_.jpg",
+                    "price": "$43.98",
+                    "rating": "4.6"
+                },
+                "B0CFQFMC4F": {
+                    "img": "https://m.media-amazon.com/images/I/71XbzuFfRyL._AC_UL320_.jpg",
+                    "price": "$39.98",
+                    "rating": "4.4"
+                },
+                "B0CXLK9PJ9": {
+                    "img": "https://m.media-amazon.com/images/I/71A1QQMJjgL._AC_UL320_.jpg",
+                    "price": "$44.78",
+                    "rating": "4.7"
+                },
+                "B0CBDF4SMK": {
+                    "img": "https://m.media-amazon.com/images/I/81RYYEs+bZL._AC_UL320_.jpg",
+                    "price": "$18.98",
+                    "rating": "4.5"
+                },
+                "B095LF58P9": {
+                    "img": "https://m.media-amazon.com/images/I/71dnbqSMETS._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.6"
+                },
+                "B09LLL1HX6": {
+                    "img": "https://m.media-amazon.com/images/I/71GA1lLdxOL._AC_UL320_.jpg",
+                    "price": "$15.99",
+                    "rating": "4.5"
+                },
+                "B0BR9V9FKP": {
+                    "img": "https://m.media-amazon.com/images/I/61cVCxMax5L._AC_UL320_.jpg",
+                    "price": "$15.99",
+                    "rating": "4.4"
+                },
+                "B0D8W3ZR3Z": {
+                    "img": "https://m.media-amazon.com/images/I/71x5aaIOe+L._AC_UL320_.jpg",
+                    "price": "$7.49",
+                    "rating": "4.6"
+                },
+                "B09W2TGLR9": {
+                    "img": "https://m.media-amazon.com/images/I/61uw-LnxKsL._AC_UL320_.jpg",
+                    "price": "$45.98",
+                    "rating": "4.6"
+                },
+                "B08KXKVT4K": {
+                    "img": "https://m.media-amazon.com/images/I/81yj+PUYVxL._AC_UL320_.jpg",
+                    "price": "$16.14",
+                    "rating": "4.7"
+                },
+                "B0BNQ56MH5": {
+                    "img": "https://m.media-amazon.com/images/I/81DosoMTz6L._AC_UL320_.jpg",
+                    "price": "$25.98",
+                    "rating": "4.4"
+                },
+                "B0BZNPDHR9": {
+                    "img": "https://m.media-amazon.com/images/I/81q5VP6XSgL._AC_UL320_.jpg",
+                    "price": "$34.98",
+                    "rating": "4.6"
+                },
+                "B0D29BY9W7": {
+                    "img": "https://m.media-amazon.com/images/I/81v9N65tDKL._AC_UL320_.jpg",
+                    "price": "$24.98",
+                    "rating": "4.2"
+                },
+                "B0D16YB4K6": {
+                    "img": "https://m.media-amazon.com/images/I/810ngf5bZaL._AC_UL320_.jpg",
+                    "price": "$45.98",
+                    "rating": "4.6"
+                },
+                "B0B6TK767D": {
+                    "img": "https://m.media-amazon.com/images/I/8125MHafiQL._AC_UL320_.jpg",
+                    "price": "$25.18",
+                    "rating": "4.4"
+                },
+                "B0DDKSX2CW": {
+                    "img": "https://m.media-amazon.com/images/I/81F8TfxB-HL._AC_UL320_.jpg",
+                    "price": "$24.98",
+                    "rating": "4.3"
+                },
+                "B0DZ6ZQJF2": {
+                    "img": "https://m.media-amazon.com/images/I/51FkZd5gW4L._AC_UL320_.jpg",
+                    "price": "$41.98",
+                    "rating": ""
+                },
+                "B0C5DBMYZF": {
+                    "img": "https://m.media-amazon.com/images/I/71xHRLEofPL._AC_UL320_.jpg",
+                    "price": "$39.98",
+                    "rating": "4.4"
+                },
+                "B08SHL9C63": {
+                    "img": "https://m.media-amazon.com/images/I/91snP3q4EFL._AC_UL320_.jpg",
+                    "price": "$29.98",
+                    "rating": "4.5"
+                },
+                "B08CGHSY9G": {
+                    "img": "https://m.media-amazon.com/images/I/916UVhEr8nL._AC_UL320_.jpg",
+                    "price": "$33.23",
+                    "rating": "4.5"
+                },
+                "B0F7R5TKWV": {
+                    "img": "https://m.media-amazon.com/images/I/71fijinVVUL._AC_UL320_.jpg",
+                    "price": "$59.97",
+                    "rating": "4.5"
+                },
+                "B07ZFM72ZS": {
+                    "img": "https://m.media-amazon.com/images/I/7173xBgB5uL._AC_UL320_.jpg",
+                    "price": "$60.61",
+                    "rating": "4.7"
+                },
+                "B0CXXPFKLV": {
+                    "img": "https://m.media-amazon.com/images/I/71r3+5eiGKL._AC_UL320_.jpg",
+                    "price": "",
+                    "rating": "4.7"
+                },
+                "B07JB53ZBV": {
+                    "img": "https://m.media-amazon.com/images/I/719x1RLK2BL._AC_UL320_.jpg",
+                    "price": "$48.26",
+                    "rating": "4.7"
+                },
+                "B0D5LL43R4": {
+                    "img": "https://m.media-amazon.com/images/I/61YtTtbvtYL._AC_UL320_.jpg",
+                    "price": "$75.93",
+                    "rating": "4.6"
+                },
+                "B0F31WBD7H": {
+                    "img": "https://m.media-amazon.com/images/I/71OMjH+z2-L._AC_UL320_.jpg",
+                    "price": "$24.28",
+                    "rating": "4.6"
+                },
+                "B0G1BVV957": {
+                    "img": "https://m.media-amazon.com/images/I/815hVl-G4QL._AC_UL320_.jpg",
+                    "price": "$49.98",
+                    "rating": "4.6"
+                },
+                "B07R772YTP": {
+                    "img": "https://m.media-amazon.com/images/I/71qZzZ0Y8VS._AC_UL320_.jpg",
+                    "price": "$25.99",
+                    "rating": "4.7"
+                },
+                "B08TVSWV2J": {
+                    "img": "https://m.media-amazon.com/images/I/71R8AQCiNfL._AC_UL320_.jpg",
+                    "price": "$23.99",
+                    "rating": "4.6"
+                },
+                "B08C2X5FX6": {
+                    "img": "https://m.media-amazon.com/images/I/71MV6K8KtXL._AC_UL320_.jpg",
+                    "price": "$25.99",
+                    "rating": "4.7"
+                },
+                "B0C28CS8Q4": {
+                    "img": "https://m.media-amazon.com/images/I/71kybmXExyL._AC_UL320_.jpg",
+                    "price": "$5.99",
+                    "rating": "4.6"
+                },
+                "B0B1TZXHY4": {
+                    "img": "https://m.media-amazon.com/images/I/71kyIJFxs0L._AC_UL320_.jpg",
+                    "price": "$21.99",
+                    "rating": "4.7"
+                },
+                "B0F9XZ6FZJ": {
+                    "img": "https://m.media-amazon.com/images/I/81E43mdO3bL._AC_UL320_.jpg",
+                    "price": "$22.99",
+                    "rating": "4.7"
+                },
+                "B09S3NF1QH": {
+                    "img": "https://m.media-amazon.com/images/I/71BI5+apcDL._AC_UL320_.jpg",
+                    "price": "$26.99",
+                    "rating": "4.7"
+                },
+                "B0CKWZRCJX": {
+                    "img": "https://m.media-amazon.com/images/I/71CAGUzcRIL._AC_UL320_.jpg",
+                    "price": "$25.99",
+                    "rating": "4.7"
+                },
+                "B0FWCDBPS4": {
+                    "img": "https://m.media-amazon.com/images/I/71-D-2jIp5L._AC_UL320_.jpg",
+                    "price": "$15.99",
+                    "rating": "4.9"
+                },
+                "B0B42GC9F5": {
+                    "img": "https://m.media-amazon.com/images/I/71dKFlXdsgL._AC_UL320_.jpg",
+                    "price": "$19.99",
+                    "rating": "4.6"
+                },
+                "B0BN5K9B2T": {
+                    "img": "https://m.media-amazon.com/images/I/61j6zf0ThgL._AC_UL320_.jpg",
+                    "price": "$16.99",
+                    "rating": "4.5"
+                },
+                "B084JK3DY4": {
+                    "img": "https://m.media-amazon.com/images/I/61Ycth2Ai5L._AC_UL320_.jpg",
+                    "price": "$13.59",
+                    "rating": "4.3"
+                },
+                "B0CBKLMZLQ": {
+                    "img": "https://m.media-amazon.com/images/I/811kACW29kL._AC_UL320_.jpg",
+                    "price": "$103.96",
+                    "rating": "4.6"
+                },
+                "B0DDJ91GYP": {
+                    "img": "https://m.media-amazon.com/images/I/91PBea+8N1L._AC_UL320_.jpg",
+                    "price": "$26.79",
+                    "rating": "4.7"
+                },
+                "B09GBDQVGY": {
+                    "img": "https://m.media-amazon.com/images/I/61eaMNfbvGL._AC_UL320_.jpg",
+                    "price": "$9.98",
+                    "rating": "4.5"
+                },
+                "B0BM99FB28": {
+                    "img": "https://m.media-amazon.com/images/I/71fZal5lpFL._AC_UL320_.jpg",
+                    "price": "$19.98",
+                    "rating": "4.6"
+                },
+                "B0DG217MLL": {
+                    "img": "https://m.media-amazon.com/images/I/71cWyBhuGrL._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.3"
+                },
+                "B0CPF4548R": {
+                    "img": "https://m.media-amazon.com/images/I/71sRfGANd5L._AC_UL320_.jpg",
+                    "price": "$8.99",
+                    "rating": "4.2"
+                },
+                "B084JVLK17": {
+                    "img": "https://m.media-amazon.com/images/I/711iEZsPSSL._AC_UL320_.jpg",
+                    "price": "$15.99",
+                    "rating": "4.2"
+                },
+                "B0F2SDRZBV": {
+                    "img": "https://m.media-amazon.com/images/I/61NQxFS+72L._AC_UL320_.jpg",
+                    "price": "$19.99",
+                    "rating": "4.6"
+                },
+                "B0DK97R7DB": {
+                    "img": "https://m.media-amazon.com/images/I/61V18giItzL._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.4"
+                },
+                "B0BZ42GY8V": {
+                    "img": "https://m.media-amazon.com/images/I/61Df0Z1wfKL._AC_UL320_.jpg",
+                    "price": "$18.66",
+                    "rating": "4.3"
+                },
+                "B07JGWT25L": {
+                    "img": "https://m.media-amazon.com/images/I/51ekZ5lDZBL._AC_UL320_.jpg",
+                    "price": "$15.97",
+                    "rating": "4.4"
+                },
+                "B0F928D8N3": {
+                    "img": "https://m.media-amazon.com/images/I/71nIMNXYM1L._AC_UL320_.jpg",
+                    "price": "$21.99",
+                    "rating": "4.4"
+                },
+                "B0CH2SFQX7": {
+                    "img": "https://m.media-amazon.com/images/I/711yOYJAwML._AC_UL320_.jpg",
+                    "price": "$35.99",
+                    "rating": "4.6"
+                },
+                "B0FH6KVQ9F": {
+                    "img": "https://m.media-amazon.com/images/I/819mnOTKdUL._AC_UL320_.jpg",
+                    "price": "$19.99",
+                    "rating": "4.8"
+                },
+                "B0CHFKP3KN": {
+                    "img": "https://m.media-amazon.com/images/I/6178C319qhL._AC_UL320_.jpg",
+                    "price": "$26.99",
+                    "rating": "4.6"
+                },
+                "B0CWVS6C33": {
+                    "img": "https://m.media-amazon.com/images/I/41rR0BpMGeL._AC_UL320_.jpg",
+                    "price": "$44.60",
+                    "rating": "4.8"
+                },
+                "B0C4L9TBG3": {
+                    "img": "https://m.media-amazon.com/images/I/610Yy0Zl3hL._AC_UL320_.jpg",
+                    "price": "$23.99",
+                    "rating": "4.6"
+                },
+                "B0G43H97DD": {
+                    "img": "https://m.media-amazon.com/images/I/81NyOfuWBzL._AC_UL320_.jpg",
+                    "price": "$29.99",
+                    "rating": "5.0"
+                },
+                "B0FXKR6DXR": {
+                    "img": "https://m.media-amazon.com/images/I/7156KCAdKzL._AC_UL320_.jpg",
+                    "price": "$65.99",
+                    "rating": ""
+                },
+                "B0C4L9MTB7": {
+                    "img": "https://m.media-amazon.com/images/I/61Lb1SR1tlL._AC_UL320_.jpg",
+                    "price": "$15.99",
+                    "rating": "4.6"
+                },
+                "B0D5Y391WS": {
+                    "img": "https://m.media-amazon.com/images/I/71FgQid6gPL._AC_UL320_.jpg",
+                    "price": "$28.04",
+                    "rating": "4.6"
+                },
+                "B097K4B6Z8": {
+                    "img": "https://m.media-amazon.com/images/I/91H6LIrH3BL._AC_UL320_.jpg",
+                    "price": "$29.98",
+                    "rating": "4.6"
+                },
+                "B097M3XJ49": {
+                    "img": "https://m.media-amazon.com/images/I/81o6Uyn12jL._AC_UL320_.jpg",
+                    "price": "$16.98",
+                    "rating": "4.7"
+                },
+                "B0F2MRKYVJ": {
+                    "img": "https://m.media-amazon.com/images/I/71C++o91U4L._AC_UL320_.jpg",
+                    "price": "$19.99",
+                    "rating": "4.8"
+                },
+                "B0F1D4XG9Q": {
+                    "img": "https://m.media-amazon.com/images/I/81S-SlugTyL._AC_UL320_.jpg",
+                    "price": "$26.99",
+                    "rating": "4.8"
+                },
+                "B0FHW916TD": {
+                    "img": "https://m.media-amazon.com/images/I/71md3ZTOCwL._AC_UL320_.jpg",
+                    "price": "$45.98",
+                    "rating": "4.6"
+                },
+                "B0FJ81MWQD": {
+                    "img": "https://m.media-amazon.com/images/I/81cu0iD5YyL._AC_UL320_.jpg",
+                    "price": "$26.99",
+                    "rating": "4.5"
+                },
+                "B0G4PH1D67": {
+                    "img": "https://m.media-amazon.com/images/I/71olN33tbfL._AC_UL320_.jpg",
+                    "price": "$35.99",
+                    "rating": "5.0"
+                },
+                "B0CBM6DVMK": {
+                    "img": "https://m.media-amazon.com/images/I/71bhjuSUVnL._AC_UL320_.jpg",
+                    "price": "$49.99",
+                    "rating": "4.6"
+                },
+                "B0BZCTXKPZ": {
+                    "img": "https://m.media-amazon.com/images/I/81UsPrx1EJL._AC_UL320_.jpg",
+                    "price": "$36.99",
+                    "rating": "4.7"
+                },
+                "B0FPLDFBJ5": {
+                    "img": "https://m.media-amazon.com/images/I/61tmugkWKfL._AC_UL320_.jpg",
+                    "price": "$69.98",
+                    "rating": "4.2"
+                },
+                "B0F5VVMZZ5": {
+                    "img": "https://m.media-amazon.com/images/I/71cjtibSdLL._AC_UL320_.jpg",
+                    "price": "$109.99",
+                    "rating": "4.1"
+                },
+                "B0BYHVLXTV": {
+                    "img": "https://m.media-amazon.com/images/I/61g7Oygq20L._AC_UL320_.jpg",
+                    "price": "$99.99",
+                    "rating": "4.1"
+                },
+                "B09FW8GNTJ": {
+                    "img": "https://m.media-amazon.com/images/I/81qM89sUfgL._AC_UL320_.jpg",
+                    "price": "$29.99",
+                    "rating": "4.7"
+                },
+                "B07G5SRN1H": {
+                    "img": "https://m.media-amazon.com/images/I/51HVvgKtVIL._AC_UL320_.jpg",
+                    "price": "$74.99",
+                    "rating": "4.4"
+                },
+                "B085Q4WJGS": {
+                    "img": "https://m.media-amazon.com/images/I/61Iq4HS7VwL._AC_UL320_.jpg",
+                    "price": "$31.99",
+                    "rating": "4.5"
+                },
+                "B07RGGYLGY": {
+                    "img": "https://m.media-amazon.com/images/I/71l65pZfAbL._AC_UL320_.jpg",
+                    "price": "$17.99",
+                    "rating": "4.5"
+                },
+                "B08ZK5WDWN": {
+                    "img": "https://m.media-amazon.com/images/I/91KYKxVFaiL._AC_UL320_.jpg",
+                    "price": "$30.99",
+                    "rating": "4.7"
+                },
+                "B0CS3FBC6W": {
+                    "img": "https://m.media-amazon.com/images/I/71fghP75Q2L._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.7"
+                },
+                "B0C3QZ7SNF": {
+                    "img": "https://m.media-amazon.com/images/I/817NZ3rrbIL._AC_UL320_.jpg",
+                    "price": "$13.29",
+                    "rating": "4.6"
+                },
+                "B0FXXDX3WW": {
+                    "img": "https://m.media-amazon.com/images/I/81rqPTA6tfL._AC_UL320_.jpg",
+                    "price": "$19.99",
+                    "rating": ""
+                },
+                "B0C7PWN1JV": {
+                    "img": "https://m.media-amazon.com/images/I/81AAdEO083L._AC_UL320_.jpg",
+                    "price": "$99.99",
+                    "rating": "4.5"
+                },
+                "B082K8XTBS": {
+                    "img": "https://m.media-amazon.com/images/I/712T34l+u4L._AC_UL320_.jpg",
+                    "price": "$7.49",
+                    "rating": "4.5"
+                },
+                "B0G4C5FB3C": {
+                    "img": "https://m.media-amazon.com/images/I/81VsE1HDoEL._AC_UL320_.jpg",
+                    "price": "$29.99",
+                    "rating": ""
+                },
+                "B0CGJJJC4M": {
+                    "img": "https://m.media-amazon.com/images/I/718gPdLAncL._AC_UL320_.jpg",
+                    "price": "$35.97",
+                    "rating": "4.5"
+                },
+                "B0DHMJSDXM": {
+                    "img": "https://m.media-amazon.com/images/I/71WIkiANaxL._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.6"
+                },
+                "B07SYPLVTG": {
+                    "img": "https://m.media-amazon.com/images/I/61+pb4y2RLL._AC_UL320_.jpg",
+                    "price": "$15.18",
+                    "rating": "4.5"
+                },
+                "B0C3H9MJQV": {
+                    "img": "https://m.media-amazon.com/images/I/51imrSup74L._AC_UL320_.jpg",
+                    "price": "",
+                    "rating": ""
+                },
+                "B0CNGTZ3B5": {
+                    "img": "https://m.media-amazon.com/images/I/614DfIW6jFL._AC_UL320_.jpg",
+                    "price": "$9.99",
+                    "rating": "4.4"
+                },
+                "B0CL9NHS27": {
+                    "img": "https://m.media-amazon.com/images/I/71j55FnA0SL._AC_UL320_.jpg",
+                    "price": "$35.96",
+                    "rating": "4.6"
+                },
+                "B0DL64N5NZ": {
+                    "img": "https://m.media-amazon.com/images/I/61yz12QzPqL._AC_UL320_.jpg",
+                    "price": "$39.92",
+                    "rating": "4.3"
+                },
+                "B0DNTQ2YNT": {
+                    "img": "https://m.media-amazon.com/images/I/811uMdiQm7L._AC_UL320_.jpg",
+                    "price": "$18.99",
+                    "rating": "4.6"
+                },
+                "B0CHNL1JYB": {
+                    "img": "https://m.media-amazon.com/images/I/81qh81qY0QL._AC_UL320_.jpg",
+                    "price": "$43.69",
+                    "rating": "4.6"
+                },
+                "B0DLFMDSHB": {
+                    "img": "https://m.media-amazon.com/images/I/91MUAmtO4VL._AC_UL320_.jpg",
+                    "price": "$33.60",
+                    "rating": "4.4"
+                }
+            };
+            // --- LEGACY DATA END ---
             function getQueryParams() {
                 const params = new URLSearchParams(window.location.search);
                 return {
                     asin: params.get('asin'),
                     name: params.get('name'),
+                    img: params.get('img'),
+                    price: params.get('price'),
+                    rating: params.get('rating'),
                     tag: params.get('tag') || 'tidylivingc0e-20'
                 };
             }
@@ -96,20 +612,43 @@
             }
 
             window.onload = function () {
-                const { asin, name, tag } = getQueryParams();
+                const { asin, name, img, price, rating, tag } = getQueryParams();
                 if (asin) {
                     const bridge = document.getElementById('product-bridge');
                     const links = document.getElementById('standard-links');
                     const productName = document.getElementById('bridge-product-name');
+                    const productImg = document.getElementById('bridge-product-image');
+                    const productPrice = document.getElementById('bridge-price');
+                    const productRating = document.getElementById('bridge-rating');
                     const amazonLink = document.getElementById('bridge-amazon-link');
 
                     try {
-                        // Handle both %20 and + for spaces
                         const decodedName = decodeURIComponent((name || '').replace(/\+/g, ' '));
-                        productName.innerText = decodedName || 'Your Selected Home Find';
+                        productName.innerText = decodedName || (LEGACY_MAP[asin]?.name) || 'Your Selected Home Find';
                     } catch (e) {
-                        console.error('Failed to decode product name', e);
-                        productName.innerText = 'Your Selected Home Find';
+                        productName.innerText = (LEGACY_MAP[asin]?.name) || 'Your Selected Home Find';
+                    }
+
+                    if (img) {
+                        productImg.src = decodeURIComponent(img);
+                    } else if (LEGACY_MAP[asin]?.img) {
+                        productImg.src = LEGACY_MAP[asin].img;
+                    }
+
+                    const finalPrice = price ? decodeURIComponent(price) : (LEGACY_MAP[asin]?.price || "");
+                    if (finalPrice && finalPrice !== "nan" && finalPrice !== "N/A") {
+                        productPrice.innerText = finalPrice;
+                        productPrice.style.display = 'inline-block';
+                    } else {
+                        productPrice.style.display = 'none';
+                    }
+
+                    const rawRating = rating ? rating : (LEGACY_MAP[asin]?.rating || "");
+                    if (rawRating && rawRating !== "nan" && rawRating !== "N/A") {
+                        productRating.innerText = `⭐ ${parseFloat(rawRating).toFixed(1)}`;
+                        productRating.style.display = 'inline-block';
+                    } else {
+                        productRating.style.display = 'none';
                     }
 
                     amazonLink.href = `https://www.amazon.com/dp/${asin}?tag=${tag}`;
