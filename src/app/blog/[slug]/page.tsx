@@ -11,8 +11,9 @@ export async function generateStaticParams() {
     }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const post = getPostBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = await params;
+    const post = getPostBySlug(resolvedParams.slug);
     if (!post) return;
     return {
         title: `${post.meta.title} | Tidy Living Co`,
@@ -20,11 +21,31 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-    const post = getPostBySlug(params.slug);
+export default async function BlogPost({
+    params,
+    searchParams
+}: {
+    params: Promise<{ slug: string }>,
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+    const resolvedParams = await params;
+    const resolvedSearchParams = await searchParams;
+    const post = getPostBySlug(resolvedParams.slug);
+    const targetAsin = resolvedSearchParams.asin as string;
 
     if (!post) {
         notFound();
+    }
+
+    // Reorder products: if match found, put it first.
+    let displayProducts = post.meta.products || [];
+    if (targetAsin && displayProducts.length > 0) {
+        const matchIndex = displayProducts.findIndex(p => p.asin === targetAsin);
+        if (matchIndex > -1) {
+            const match = displayProducts[matchIndex];
+            const others = displayProducts.filter(p => p.asin !== targetAsin);
+            displayProducts = [match, ...others];
+        }
     }
 
     return (
@@ -58,19 +79,29 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 {/* Quick Picks Section */}
                 {post.meta.products && (
                     <div className="glass-panel p-8 rounded-2xl mb-12 bg-white/80 backdrop-blur-xl shadow-2xl border border-white/50">
-                        <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-gray-400 border-b pb-2">Quick Picks</h3>
+                        <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-gray-400 border-b pb-2">
+                            {targetAsin ? 'Your Matched Solution & More' : 'Quick Picks'}
+                        </h3>
                         <div className="space-y-6">
-                            {post.meta.products.map((product, idx) => (
-                                <div key={idx} className="flex gap-4 items-center group">
-                                    <div className="flex-1">
-                                        <h4 className="font-bold text-lg text-gray-800 group-hover:text-amber-600 transition">{product.name}</h4>
-                                        <p className="text-sm text-gray-500">{product.description}</p>
+                            {displayProducts.map((product, idx) => {
+                                const isMatch = product.asin === targetAsin;
+                                return (
+                                    <div key={idx} className={`flex gap-4 items-center group p-4 rounded-xl transition-all ${isMatch ? 'bg-amber-50 border border-amber-200 shadow-sm transform scale-105' : 'hover:bg-gray-50'}`}>
+                                        <div className="flex-1">
+                                            {isMatch && (
+                                                <span className="inline-block bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">
+                                                    FEATURED MATCH
+                                                </span>
+                                            )}
+                                            <h4 className="font-bold text-lg text-gray-800 group-hover:text-amber-600 transition">{product.name}</h4>
+                                            <p className="text-sm text-gray-500">{product.description}</p>
+                                        </div>
+                                        <a href={`https://www.amazon.com/dp/${product.asin}?tag=tidylivingc0e-20`} target="_blank" className={`cta-btn px-4 py-2 text-white rounded-lg text-sm font-bold transition whitespace-nowrap ${isMatch ? 'bg-amber-600 hover:bg-amber-700 shadow-md' : 'bg-gray-900 hover:bg-gray-700'}`}>
+                                            Check Price
+                                        </a>
                                     </div>
-                                    <a href={`https://www.amazon.com/dp/${product.asin}?tag=tidylivingc0e-20`} target="_blank" className="cta-btn px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-bold hover:bg-amber-600 transition whitespace-nowrap">
-                                        Check Price
-                                    </a>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 )}
