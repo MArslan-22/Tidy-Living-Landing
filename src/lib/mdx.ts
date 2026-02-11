@@ -16,6 +16,7 @@ export type Post = {
             name: string;
             asin: string;
             description: string;
+            img?: string;
         }>
     };
     content: string;

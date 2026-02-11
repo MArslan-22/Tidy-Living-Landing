@@ -87,14 +87,28 @@ export default async function BlogPost({
                                 const isMatch = product.asin === targetAsin;
                                 return (
                                     <div key={idx} className={`flex gap-4 items-center group p-4 rounded-xl transition-all ${isMatch ? 'bg-amber-50 border border-amber-200 shadow-sm transform scale-105' : 'hover:bg-gray-50'}`}>
+                                        <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 border border-gray-100">
+                                            {product.img ? (
+                                                <Image
+                                                    src={product.img}
+                                                    alt={product.name}
+                                                    fill
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs text-center p-2">
+                                                    No Image
+                                                </div>
+                                            )}
+                                        </div>
                                         <div className="flex-1">
                                             {isMatch && (
                                                 <span className="inline-block bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">
                                                     FEATURED MATCH
                                                 </span>
                                             )}
-                                            <h4 className="font-bold text-lg text-gray-800 group-hover:text-amber-600 transition">{product.name}</h4>
-                                            <p className="text-sm text-gray-500">{product.description}</p>
+                                            <h4 className="font-bold text-lg text-gray-800 group-hover:text-amber-600 transition leading-tight mb-1">{product.name}</h4>
+                                            <p className="text-sm text-gray-500 leading-tight line-clamp-2">{product.description}</p>
                                         </div>
                                         <a href={`https://www.amazon.com/dp/${product.asin}?tag=tidylivingc0e-20`} target="_blank" className={`cta-btn px-4 py-2 text-white rounded-lg text-sm font-bold transition whitespace-nowrap ${isMatch ? 'bg-amber-600 hover:bg-amber-700 shadow-md' : 'bg-gray-900 hover:bg-gray-700'}`}>
                                             Check Price
