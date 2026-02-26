@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter-sans' });
 export const metadata: Metadata = {
   title: 'Tidy Living Co | Home Organization Favorites',
   description: 'Curated home organization finds and aesthetic storage solutions.',
+  other: {
+    'p:domain_verify': '264608a0683c137b871bb22191723bf0',
+  },
 };
 
 export default function RootLayout({
