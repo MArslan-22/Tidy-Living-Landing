@@ -52,9 +52,12 @@ function ProductBridge() {
       }
 
       // Override with URL params if present
-      if (nameParam) finalName = decodeURIComponent(nameParam.replace(/\+/g, ' '));
-      if (imgParam) finalImg = decodeURIComponent(imgParam);
-      if (priceParam && priceParam !== 'nan' && priceParam !== 'N/A') finalPrice = decodeURIComponent(priceParam);
+      // NOTE: useSearchParams().get() already URL-decodes values — do NOT call
+      // decodeURIComponent() again or product names with "%" (e.g. "100% Microfiber")
+      // will throw URIError: URI malformed and crash the page.
+      if (nameParam) finalName = nameParam.replace(/\+/g, ' ');
+      if (imgParam) finalImg = imgParam;
+      if (priceParam && priceParam !== 'nan' && priceParam !== 'N/A') finalPrice = priceParam;
       if (ratingParam && ratingParam !== 'nan' && ratingParam !== 'N/A') finalRating = ratingParam;
 
       setProduct({
